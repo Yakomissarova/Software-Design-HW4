@@ -1,0 +1,67 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: gogon-rabbitmq
+    ports:
+      - "5672:5672"     # AMQP
+      - "15672:15672"   # Management UI
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  orders:
+    build:
+      context: .
+      dockerfile: src/Orders_Service/Orders.Host/Dockerfile
+    container_name: gogon-orders
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+      # SQLite файл храним в volume (чтобы данные не терялись)
+      ConnectionStrings__OrdersDb: "Data Source=/data/orders.db"
+
+      # RabbitMQ
+      RabbitMq__HostName: "rabbitmq"
+      RabbitMq__UserName: "guest"
+      RabbitMq__Password: "guest"
+      RabbitMq__PaymentRequestsQueue: "orders.payment.requested"
+      RabbitMq__PaymentResultsQueue: "orders.payment.result"
+    volumes:
+      - orders_data:/data
+    ports:
+      - "8081:8080"   # Orders API + Swagger
+    restart: unless-stopped
+
+  payments:
+    build:
+      context: .
+      dockerfile: src/Payments_Service/Payments.Host/Dockerfile
+    container_name: gogon-payments
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+      ConnectionStrings__PaymentsDb: "Data Source=/data/payments.db"
+
+      RabbitMq__HostName: "rabbitmq"
+      RabbitMq__UserName: "guest"
+      RabbitMq__Password: "guest"
+      RabbitMq__PaymentRequestsQueue: "orders.payment.requested"
+      RabbitMq__PaymentResultsQueue: "orders.payment.result"
+    volumes:
+      - payments_data:/data
+    ports:
+      - "8082:8080"   # Payments API + Swagger
+    restart: unless-stopped
+
+volumes:
+  orders_data:
+  payments_data:
