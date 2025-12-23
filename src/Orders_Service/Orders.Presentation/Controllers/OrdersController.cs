@@ -4,6 +4,7 @@ using Orders.UseCases.Commands.CreateOrder;
 using Orders.UseCases.Queries.GetOrders;
 using Orders.UseCases.Queries.GetOrderById;
 using Microsoft.AspNetCore.Http;
+using Orders.UseCases.Utils;
 
 namespace Orders.Presentation.Controllers;
 
@@ -46,13 +47,20 @@ public class OrdersController : ControllerBase
         return Created($"/orders/{publicId}", new CreateOrderResponse(publicId, "New"));
     }
 
-
-    /// <summary>Получить список заказов</summary>
+    /// <summary>Получить список заказов пользователя по логину</summary>
+    /// <remarks>Пример: GET /orders?login=vasya</remarks>
     [HttpGet]
     [ProducesResponseType(typeof(List<OrderListItemResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll(CancellationToken ct)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetAll([FromQuery] string? login, CancellationToken ct)
     {
-        var orders = await _getOrders.Handle(new GetOrdersQuery(), ct);
+        var cleanLogin = (login ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(cleanLogin))
+            return BadRequest("Login is required");
+
+        var userId = DeterministicGuid.FromLogin(cleanLogin);
+
+        var orders = await _getOrders.Handle(new GetOrdersQuery(userId), ct);
 
         var result = orders.Select(o =>
             new OrderListItemResponse(

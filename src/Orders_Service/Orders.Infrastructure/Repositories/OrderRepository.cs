@@ -16,8 +16,24 @@ public class OrderRepository : IOrderRepository
     public Task<Order?> GetByPublicIdAsync(string publicId, CancellationToken ct) =>
         _db.Orders.FirstOrDefaultAsync(x => x.PublicId == publicId, ct);
 
-    public Task<List<Order>> GetAllAsync(CancellationToken ct) =>
-        _db.Orders.OrderByDescending(x => x.CreatedAt).ToListAsync(ct);
+    public async Task<List<Order>> GetAllAsync(CancellationToken ct)
+    {
+        var items = await _db.Orders.ToListAsync(ct);
+        return items
+            .OrderByDescending(x => x.CreatedAt)
+            .ToList();
+    }
+
+    public async Task<List<Order>> GetByUserIdAsync(Guid userId, CancellationToken ct)
+    {
+        var items = await _db.Orders
+            .Where(x => x.UserId == userId)
+            .ToListAsync(ct);
+
+        return items
+            .OrderByDescending(x => x.CreatedAt)
+            .ToList();
+    }
 
     public Task AddAsync(Order order, CancellationToken ct) =>
         _db.Orders.AddAsync(order, ct).AsTask();

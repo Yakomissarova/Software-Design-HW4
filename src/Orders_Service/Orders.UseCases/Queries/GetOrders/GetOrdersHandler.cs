@@ -16,6 +16,6 @@ public class GetOrdersHandler
         GetOrdersQuery query,
         CancellationToken ct)
     {
-        return await _orders.GetAllAsync(ct);
+        return await _orders.GetByUserIdAsync(query.UserId, ct);
     }
 }
