@@ -62,6 +62,22 @@ services:
       - "8082:8080"   # Payments API + Swagger
     restart: unless-stopped
 
+  gateway:
+    build:
+      context: .
+      dockerfile: src/GateWay/Gateway.Host/Dockerfile
+    container_name: gogon-gateway
+    depends_on:
+      orders:
+        condition: service_started
+      payments:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "8080:8080"   # API Gateway (YARP)
+    restart: unless-stopped
+
 volumes:
   orders_data:
   payments_data:
