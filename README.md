@@ -31,8 +31,7 @@
 1. Клонировать репозиторий и перейти в папку проекта:
 
 ```
-git clone <repository-url>
-cd Gogon_Store
+git clone https://github.com/Yakomissarova/Software-Design-HW4.git
 ```
 
 2. Запустить все сервисы одной командой:
@@ -70,13 +69,6 @@ Swagger UI сервиса заказов:
 Swagger UI сервиса аккаунтов и баланса:
 
 [http://localhost:8082/swagger](http://localhost:8082/swagger)
-
-### RabbitMQ
-
-Web-интерфейс брокера сообщений:
-
-[http://localhost:15672](http://localhost:15672)
-(login: guest, password: guest)
 
 ---
 
@@ -238,7 +230,7 @@ GET /orders?login=...
 
 * Реализован как отдельный сервис
 * Взаимодействует с backend только через API Gateway
-* Представляет минимальный, но рабочий интерфейс
+* Представляет минимальный рабочий интерфейс
 * Упакован в Docker-контейнер
 * Запускается через Docker Compose вместе с остальными сервисами
 
