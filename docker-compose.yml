@@ -77,6 +77,21 @@ services:
     ports:
       - "8080:8080"   # API Gateway (YARP)
     restart: unless-stopped
+    
+  frontend:
+    build:
+      context: .
+      dockerfile: src/Frontend/Frontend.Host/Dockerfile
+    container_name: gogon-frontend
+    depends_on:
+      - gateway
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Gateway__BaseUrl: "http://gateway:8080"
+    ports:
+      - "8083:8080"
+    restart: unless-stopped
+
 
 volumes:
   orders_data:

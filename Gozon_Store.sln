@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payments.Host", "src\Paymen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway.Host", "src\GateWay\Gateway.Host\Gateway.Host.csproj", "{80F0FE5C-D711-46DC-B4BE-EA42C099332E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend.Host", "src\Frontend\Frontend.Host\Frontend.Host.csproj", "{1E476E21-A230-4E32-A053-A9E08BC9A05C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,9 @@ Global
 		{80F0FE5C-D711-46DC-B4BE-EA42C099332E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80F0FE5C-D711-46DC-B4BE-EA42C099332E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80F0FE5C-D711-46DC-B4BE-EA42C099332E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E476E21-A230-4E32-A053-A9E08BC9A05C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E476E21-A230-4E32-A053-A9E08BC9A05C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E476E21-A230-4E32-A053-A9E08BC9A05C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E476E21-A230-4E32-A053-A9E08BC9A05C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
