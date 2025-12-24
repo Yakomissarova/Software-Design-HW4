@@ -2,8 +2,6 @@ using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// В docker-compose ты задаёшь: Gateway__BaseUrl=http://gateway:8080
-// Внутри контейнера "gateway" — это DNS-имя сервиса gateway в docker network
 var gatewayBaseUrl = builder.Configuration["Gateway:BaseUrl"] ?? "http://gateway:8080";
 
 builder.Services.AddHttpClient("gateway", c =>
@@ -14,12 +12,9 @@ builder.Services.AddHttpClient("gateway", c =>
 
 var app = builder.Build();
 
-// Чтобы http://localhost:8083/ открывал index.html
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-// Прокси: /api/... -> gateway:/...
-// Пример: /api/accounts/by-login/Julia -> gateway:/accounts/by-login/Julia
 app.MapMethods("/api/{**path}", new[] { "GET", "POST", "PUT", "PATCH", "DELETE" },
     async (HttpContext ctx, IHttpClientFactory factory, string? path) =>
 {
@@ -41,7 +36,6 @@ app.MapMethods("/api/{**path}", new[] { "GET", "POST", "PUT", "PATCH", "DELETE" 
     // Заголовки
     foreach (var h in ctx.Request.Headers)
     {
-        // host не пробрасываем
         if (string.Equals(h.Key, "Host", StringComparison.OrdinalIgnoreCase))
             continue;
 
@@ -59,7 +53,6 @@ app.MapMethods("/api/{**path}", new[] { "GET", "POST", "PUT", "PATCH", "DELETE" 
     foreach (var h in resp.Content.Headers)
         ctx.Response.Headers[h.Key] = h.Value.ToArray();
 
-    // иначе Kestrel иногда ругается
     ctx.Response.Headers.Remove("transfer-encoding");
 
     await resp.Content.CopyToAsync(ctx.Response.Body);

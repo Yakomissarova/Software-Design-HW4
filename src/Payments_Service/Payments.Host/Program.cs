@@ -6,10 +6,10 @@ using Payments.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Presentation (контроллеры)
+// Presentation
 builder.Services.AddControllers();
 
-// Swagger (только в Host)
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -19,14 +19,13 @@ builder.Services.AddPaymentsInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-// Автомиграции (технически верно: до обработки запросов)
+// Автомиграции
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<PaymentsDbContext>();
     db.Database.Migrate();
 }
 
-// Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -10,7 +10,6 @@ public class OutboxMessage
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset? ProcessedAt { get; private set; }
 
-    private OutboxMessage() { } // EF
 
     public OutboxMessage(string type, string payload)
     {
@@ -37,6 +36,5 @@ public class OutboxMessage
 public enum OutboxMessageStatus
 {
     Pending = 0,
-    Processed = 1,
-    Failed = 2
+    Processed = 1
 }

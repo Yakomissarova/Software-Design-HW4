@@ -8,18 +8,11 @@ public class InboxMessage
     public DateTimeOffset ReceivedAt { get; private set; }
     public DateTimeOffset? ProcessedAt { get; private set; }
 
-    private InboxMessage() { } // EF
-
     public InboxMessage(Guid messageId, string type, string payload)
     {
         MessageId = messageId;
         Type = type;
         Payload = payload;
         ReceivedAt = DateTimeOffset.UtcNow;
-    }
-
-    public void MarkProcessed()
-    {
-        ProcessedAt = DateTimeOffset.UtcNow;
     }
 }

@@ -9,8 +9,6 @@ public class Account
 
     public decimal Balance { get; private set; }
 
-    private Account() { } // EF
-
     public Account(Guid userId, string login)
     {
         if (userId == Guid.Empty)

@@ -35,7 +35,6 @@ public class ProcessPaymentHandler
             new InboxMessage(cmd.MessageId, nameof(ProcessPaymentCommand), string.Empty),
             ct);
 
-        // КРИТИЧНО: сохраняем inbox сразу, чтобы повторное получение сообщения не делало бесконечный ретрай
         await _uow.SaveChangesAsync(ct);
 
         if (await _payments.GetByOrderIdAsync(cmd.OrderId, ct) != null)
@@ -44,7 +43,6 @@ public class ProcessPaymentHandler
         var account = await _accounts.GetByUserIdAsync(cmd.UserId, ct);
         if (account == null)
         {
-            // Вместо throw -> отправляем "Failed" в Orders
             var resultMessage = new { cmd.OrderId, Status = "Failed" };
 
             await _outbox.AddAsync(

@@ -106,7 +106,7 @@ async function ensureAccount(login) {
 
     if (create.ok) return true;
 
-    // 409 значит уже есть — это нормально
+    // 409 значит уже есть
     if (create.status === 409) return true;
 
     // Иначе ошибка
@@ -268,11 +268,9 @@ els.btnLoadOrders.addEventListener("click", async () => {
     }
 });
 
-// Enter в поле логина
 els.login.addEventListener("keydown", (e) => {
     if (e.key === "Enter") applyLoginFlow();
 });
 
-// при загрузке страницы — дефолт
 renderHeader();
 renderOrders([]);

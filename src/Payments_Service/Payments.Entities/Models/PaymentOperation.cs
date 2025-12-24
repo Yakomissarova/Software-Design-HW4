@@ -9,8 +9,6 @@ public class PaymentOperation
     public PaymentOperationStatus Status { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
 
-    private PaymentOperation() { } // EF
-
     public PaymentOperation(Guid orderId, Guid userId, decimal amount)
     {
         Id = Guid.NewGuid();

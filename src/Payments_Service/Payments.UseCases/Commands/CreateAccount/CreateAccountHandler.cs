@@ -17,13 +17,12 @@ public class CreateAccountHandler
 
     public async Task<Guid> Handle(CreateAccountCommand cmd, CancellationToken ct)
     {
-        var login = (cmd.Login ?? string.Empty).Trim();
+        var login = (cmd.Login).Trim();
         if (string.IsNullOrWhiteSpace(login))
             throw new InvalidOperationException("Login is required");
 
         var userId = DeterministicGuid.FromLogin(login);
 
-        // идемпотентность: если уже есть по userId — просто вернём его
         var existingById = await _accounts.GetByUserIdAsync(userId, ct);
         if (existingById != null)
             return existingById.UserId;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Orders.Presentation.Contracts.Orders;
+using Orders.Presentation.Contracts;
 using Orders.UseCases.Commands.CreateOrder;
 using Orders.UseCases.Queries.GetOrders;
 using Orders.UseCases.Queries.GetOrderById;
@@ -25,7 +25,6 @@ public class OrdersController : ControllerBase
         _getOrders = getOrders;
         _getOrderById = getOrderById;
     }
-
     /// <summary>Создать заказ (асинхронная оплата)</summary>
     [HttpPost]
     [ProducesResponseType(typeof(CreateOrderResponse), StatusCodes.Status201Created)]
@@ -48,7 +47,6 @@ public class OrdersController : ControllerBase
     }
 
     /// <summary>Получить список заказов пользователя по логину</summary>
-    /// <remarks>Пример: GET /orders?login=vasya</remarks>
     [HttpGet]
     [ProducesResponseType(typeof(List<OrderListItemResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

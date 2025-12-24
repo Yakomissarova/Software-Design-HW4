@@ -27,7 +27,6 @@ public class RabbitMqConnectionFactory
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(5)
             };
 
-            // retry loop (простая учебная версия)
             var delay = TimeSpan.FromSeconds(1);
             for (var attempt = 1; attempt <= 30; attempt++)
             {
@@ -43,7 +42,6 @@ public class RabbitMqConnectionFactory
                 }
             }
 
-            // если совсем не получилось
             _connection = factory.CreateConnection();
             return _connection;
         }

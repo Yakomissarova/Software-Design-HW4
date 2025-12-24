@@ -14,7 +14,7 @@ public class GetOrderByIdHandler
 
     public async Task<Order?> Handle(GetOrderByIdQuery query, CancellationToken ct)
     {
-        var publicId = (query.PublicId ?? string.Empty).Trim();
+        var publicId = (query.PublicId).Trim();
         if (string.IsNullOrWhiteSpace(publicId))
             throw new InvalidOperationException("PublicId is required");
 

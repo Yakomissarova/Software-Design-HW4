@@ -15,13 +15,13 @@ builder.Services.AddOrdersUseCases();
 // Infrastructure (SQLite + RabbitMQ + background workers)
 builder.Services.AddOrdersInfrastructure(builder.Configuration);
 
-// Swagger — только в Host
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Автомиграции — при старте сервиса
+// Автомиграции
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();

@@ -4,7 +4,6 @@ public class Order
 {
     public Guid Id { get; private set; }
 
-    // Читаемый идентификатор для пользователя (уникальный)
     public string PublicId { get; private set; } = null!;
 
     public Guid UserId { get; private set; }
@@ -12,8 +11,6 @@ public class Order
     public string Description { get; private set; } = null!;
     public OrderStatus Status { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
-
-    private Order() { } // EF
 
     public Order(Guid userId, decimal amount, string description)
     {
@@ -54,7 +51,6 @@ public class Order
     private static string GeneratePublicId()
     {
         // ORD-20251223-123456
-        // (читаемо; уникальность добьём UNIQUE в БД)
         var date = DateTime.UtcNow.ToString("yyyyMMdd");
         var suffix = Random.Shared.Next(100000, 999999);
         return $"ORD-{date}-{suffix}";

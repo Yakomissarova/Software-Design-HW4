@@ -12,7 +12,7 @@ public class PaymentOperationConfiguration : IEntityTypeConfiguration<PaymentOpe
         b.HasKey(x => x.Id);
 
         b.Property(x => x.OrderId).IsRequired();
-        b.HasIndex(x => x.OrderId).IsUnique(); // ключевой гарант "не списать дважды за один заказ"
+        b.HasIndex(x => x.OrderId).IsUnique(); // гарантируем списывание денег ровно один раз
 
         b.Property(x => x.UserId).IsRequired();
         b.Property(x => x.Amount).IsRequired();

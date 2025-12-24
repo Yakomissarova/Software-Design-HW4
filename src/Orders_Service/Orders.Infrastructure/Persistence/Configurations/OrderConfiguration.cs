@@ -12,7 +12,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         b.HasKey(x => x.Id);
 
         b.Property(x => x.PublicId).IsRequired();
-        b.HasIndex(x => x.PublicId).IsUnique(); // важно: PublicId должен быть уникальным
+        b.HasIndex(x => x.PublicId).IsUnique();
 
         b.Property(x => x.UserId).IsRequired();
         b.Property(x => x.Amount).IsRequired();

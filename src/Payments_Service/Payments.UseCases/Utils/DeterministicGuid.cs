@@ -1,15 +1,14 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Payments.UseCases.Utils; // В Orders поменяй namespace на Orders.UseCases.Utils
+namespace Payments.UseCases.Utils;
 public static class DeterministicGuid
 {
-    // Любой фиксированный namespace (главное одинаковый в обоих сервисах)
     private static readonly Guid Namespace = Guid.Parse("6b0b1f27-46d8-4b8c-8bb6-93f6c1e9c1d4");
 
     public static Guid FromLogin(string login)
     {
-        login = (login ?? string.Empty).Trim().ToLowerInvariant();
+        login = (login).Trim().ToLowerInvariant();
         if (string.IsNullOrWhiteSpace(login))
             throw new InvalidOperationException("Login is required");
 
@@ -30,9 +29,7 @@ public static class DeterministicGuid
         var newGuid = new byte[16];
         Array.Copy(hash, 0, newGuid, 0, 16);
 
-        // version 5
         newGuid[6] = (byte)((newGuid[6] & 0x0F) | (5 << 4));
-        // variant RFC 4122
         newGuid[8] = (byte)((newGuid[8] & 0x3F) | 0x80);
 
         SwapGuidByteOrder(newGuid);

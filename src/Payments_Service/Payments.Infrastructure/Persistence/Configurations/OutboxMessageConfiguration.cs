@@ -18,6 +18,6 @@ public class OutboxMessageConfiguration : IEntityTypeConfiguration<OutboxMessage
         b.Property(x => x.CreatedAt).IsRequired();
         b.Property(x => x.ProcessedAt);
 
-        b.HasIndex(x => x.Status); // быстро выбирать Pending
+        b.HasIndex(x => x.Status);
     }
 }

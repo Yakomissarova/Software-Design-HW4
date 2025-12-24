@@ -35,7 +35,7 @@ public class CreateOrderHandler
             OrderId = order.Id,
             UserId = userId,
             Login = login,
-            Amount = order.Amount
+            order.Amount
         };
 
         await _outbox.AddAsync(

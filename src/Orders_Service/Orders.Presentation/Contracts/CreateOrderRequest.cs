@@ -1,4 +1,4 @@
-﻿namespace Orders.Presentation.Contracts.Orders;
+﻿namespace Orders.Presentation.Contracts;
 
 public record CreateOrderRequest(
     string Login,
